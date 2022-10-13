@@ -47,10 +47,15 @@ model Session {
 
 model User {
     id            String    @id @default(cuid())
-    name          String?
+    firstname     String?
+    lastname      String?
     email         String?   @unique
+    password      String
+    phone         String?
     emailVerified DateTime?
     image         String?
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
     accounts      Account[]
     sessions      Session[]
 }
@@ -59,6 +64,5 @@ model VerificationToken {
     identifier String
     token      String   @unique
     expires    DateTime
-
     @@unique([identifier, token])
 }
