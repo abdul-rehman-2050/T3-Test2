@@ -22,6 +22,7 @@ If you are not familiar with the different technologies used in this project, pl
 ## Some Helping Links
 - [Login System rRPC](https://dev.to/franciscomendes10866/nextjs-authentication-with-next-auth-trpc-and-prisma-kgl)
 
+-[GitHub example Code](https://github.com/arisris/next-toko)
 
 Also checkout these awesome tutorials on `create-t3-app`.
 
