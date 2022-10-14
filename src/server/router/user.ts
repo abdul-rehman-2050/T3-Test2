@@ -1,5 +1,7 @@
 import { createRouter } from "./context";
 import { z } from "zod";
+import { hash } from "argon2";
+import { TRPCError } from "@trpc/server";
 
 
 interface User {
@@ -40,16 +42,34 @@ export const userRouter = createRouter()
       .required(),
     async resolve({ ctx, input }) {
 
+        const { firstname,lastname, email,phone, password } = input;
+        const exists = await ctx.prisma.user.findFirst({
+            where: { email },
+          });
+      
+          if (exists) {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: "User already exists.",
+            });
+          }
+
+          
+        const hashedPassword = await hash(password);
         const user: User = {
-            firstname: input.firstname,
-            lastname: input.lastname,
-            email: input.email,
-            phone: input.phone,
-            password: input.password
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            phone: phone,
+            password: hashedPassword
     
           };
      
-      const userID = await ctx.prisma.user.create({data:user})
-      return userID;
+      const result = await ctx.prisma.user.create({data:user})
+      return {
+        status: 201,
+        message: "Account created successfully",
+        result: result.email,
+      };
     }
   })
