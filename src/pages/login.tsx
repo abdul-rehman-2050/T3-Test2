@@ -6,6 +6,7 @@ import { SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 
 import { loginSchema, ILogin } from "../server/common/validation/auth";
+import Router from "next/router";
 
 export default function Login() {
   const [serverError, setServerError] = useState<string|null>();
@@ -26,7 +27,12 @@ export default function Login() {
   const onSubmit: SubmitHandler<ILogin> = async (data) => {
     try {
         const response = await signIn("credentials", { ...data, redirect:false,callbackUrl: "/dashboard" });
-        setServerError(JSON.stringify(response))
+        if(response?.status==200){
+            Router.push("/dashboard")
+        }else{
+            setServerError(JSON.stringify(response?.error))
+        }
+        
     } catch (err) {
       console.error(err);
       setServerError("Something went wrong with username");
