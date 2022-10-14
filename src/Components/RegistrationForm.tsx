@@ -2,6 +2,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { trpc } from "../utils/trpc";
+import Router from "next/router";
+
 
 
 interface User {
@@ -45,7 +47,10 @@ const RegistrationForm = () => {
 
     const mutation = trpc.useMutation(['user.store'],{
         onSuccess() {
-          alert("registered")
+          alert("You are registered. Please Login Now")
+          Router.push("/login")
+         
+         
         },
       });
   const {
