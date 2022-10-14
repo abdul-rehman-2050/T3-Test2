@@ -74,9 +74,9 @@ const RegistrationForm = () => {
   } 
 
   return (
-    <form className="mb-4 px-8 pt-6 pb-8" onSubmit={handleSubmit(onSubmit)}>
-      <div className="mb-4 md:flex md:justify-between">
-        <div className="mb-4 md:mr-2 md:mb-0">
+    <form className=" px-8 pt-6 pb-8" onSubmit={handleSubmit(onSubmit)}>
+      <div className="mb-2 md:flex md:justify-between">
+        <div className="mb-2 md:mr-2 md:mb-0">
           <label
             className="mb-2 block text-sm font-bold text-gray-700"
             htmlFor="firstName"
@@ -230,7 +230,7 @@ const RegistrationForm = () => {
       </div>
       <div className="mb-6 text-center">
         <button
-          className="focus:shadow-outline w-full rounded-full bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 focus:outline-none"
+          className="focus:shadow-outline w-full rounded-full bg-purple-500 px-4 py-2 font-bold text-white hover:bg-purple-700 focus:outline-none"
           type="submit"
           disabled={mutation.isLoading}
         >
@@ -238,19 +238,12 @@ const RegistrationForm = () => {
         </button>
         {mutation.error && <p>Something went wrong! {mutation.error.message}</p>}
       </div>
-      <hr className="mb-6 border-t" />
+      <hr className="mb-2 border-t" />
+     
       <div className="text-center">
         <a
-          className="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800"
-          href="#test"
-        >
-          Forgot Password?
-        </a>
-      </div>
-      <div className="text-center">
-        <a
-          className="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800"
-          href="./index.html"
+          className="inline-block align-baseline text-sm text-purple-500 hover:text-purple-800"
+          href="/login"
         >
           Already have an account? Login!
         </a>
