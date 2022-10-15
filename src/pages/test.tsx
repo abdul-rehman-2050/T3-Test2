@@ -1,8 +1,12 @@
 import React from 'react'
-
+import Layout from '../Components/Layout'
 function test() {
   return (
-    <div>test</div>
+    <div>
+        <Layout>
+            <h1> test</h1>
+        </Layout>
+        </div>
   )
 }
 
