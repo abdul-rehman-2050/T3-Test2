@@ -2,6 +2,7 @@ import React from "react";
 
 import { signOut, useSession } from "next-auth/react";
 import Router from "next/router";
+import { Session } from "@prisma/client";
 
 
 

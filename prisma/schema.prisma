@@ -54,6 +54,7 @@ model User {
     phone         String?
     emailVerified DateTime?
     image         String?
+    about         String? 
     createdAt     DateTime @default(now())
     updatedAt     DateTime @updatedAt
     accounts      Account[]
