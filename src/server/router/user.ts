@@ -2,6 +2,7 @@ import { createRouter } from "./context";
 import { z } from "zod";
 import { hash } from "argon2";
 import { TRPCError } from "@trpc/server";
+import { resolve } from "path";
 
 
 interface User {
@@ -29,6 +30,25 @@ export const userRouter = createRouter()
   .query("userAll", {
     async resolve({ ctx }) {
       return await ctx.prisma.example.findMany();
+    },
+  })
+  .query("getone",{
+    input:z.object({ postId: z.string().min(1) }),
+
+    async resolve({ctx,input}){
+
+        const userID = input.postId;
+       
+        const exists = await ctx.prisma.user.findFirst({
+            where: {
+                id: userID,
+              },
+          });
+          if(exists)return exists;
+          throw new TRPCError({
+            code: "NOT_FOUND",
+            message: "Requested user not found in database",
+          });
     },
   })
   .mutation("store", {

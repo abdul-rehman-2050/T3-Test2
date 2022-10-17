@@ -6,7 +6,7 @@ import { Session } from "@prisma/client";
 
 
 
-function dashboard() {
+function Dashboard() {
   const { data: session, status } = useSession();
   if (status === "loading") {
     return <main>Loading...</main>;
@@ -32,4 +32,4 @@ function dashboard() {
   );
 }
 
-export default dashboard;
+export default Dashboard;

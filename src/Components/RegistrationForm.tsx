@@ -1,47 +1,9 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+
 import { trpc } from "../utils/trpc";
 import Router from "next/router";
-
-
-
-interface User {
-    firstname: string;
-    lastname: string;
-    email: string;
-    phone: string;
-    password: string;
-  }
-
-const rePhoneNumber = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
-const validationSchema = z
-  .object({
-    firstName: z.string().min(1, { message: "Firstname is required" }),
-    lastName: z.string().min(1, { message: "Lastname is required" }),
-    email: z.string().min(1, { message: "Email is required" }).email({
-      message: "Must be a valid email",
-    }),
-    phone: z.string().min(1, { message: "Phone number is required" })
-    .regex(rePhoneNumber,{message: "invalid phone number"}),
-
-    password: z
-      .string()
-      .min(6, { message: "Password must be atleast 6 characters" }),
-      
-    confirmPassword: z
-      .string()
-      .min(1, { message: "Confirm Password is required" }),
-    terms: z.literal(true, {
-      errorMap: () => ({ message: "You must accept Terms and Conditions" }),
-    }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    path: ["confirmPassword"],
-    message: "Password don't match",
-  });
-
-type ValidationSchema = z.infer<typeof validationSchema>;
+import { UserValidationSchema,UserValidationSchemaType,CreateUserInterface } from "../validate/User";
 
 const RegistrationForm = () => {
 
@@ -58,13 +20,13 @@ const RegistrationForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ValidationSchema>({
-    resolver: zodResolver(validationSchema),
+  } = useForm<UserValidationSchemaType>({
+    resolver: zodResolver(UserValidationSchema),
   });
 
-  const onSubmit: SubmitHandler<ValidationSchema> = async (data) =>{
+  const onSubmit: SubmitHandler<UserValidationSchemaType> = async (data) =>{
     console.log(data);
-    const user: User = {
+    const user: CreateUserInterface = {
         firstname: data.firstName,
         lastname: data.lastName,
         email: data.email,
