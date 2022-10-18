@@ -16,12 +16,20 @@ function ProfileCard({ id, firstname, lastname, email, phone }: UserType) {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<UserValidationSchemaType>({
     resolver: zodResolver(UserValidationSchema),
   });
+
+  setValue("id",id as string)
+  setValue("email",email as string)
+  setValue("phone",phone as string)
+  setValue("firstName",firstname as string)
+  setValue("lastName",lastname as string)
   const onSubmit: SubmitHandler<UserValidationSchemaType> = async (data) => {
     console.log(data);
     const user: CreateUserInterface = {
+      id: data.id as string,
       firstname: data.firstName,
       lastname: data.lastName,
       email: data.email,
@@ -60,7 +68,7 @@ function ProfileCard({ id, firstname, lastname, email, phone }: UserType) {
                 id="firstName"
                 type="text"
                 placeholder="First Name"
-                value={firstname}
+                
                 {...register("firstName")}
               />
               {errors.firstName && (
@@ -81,7 +89,7 @@ function ProfileCard({ id, firstname, lastname, email, phone }: UserType) {
                 id="lastName"
                 type="text"
                 placeholder="Last Name"
-                value={lastname}
+                
                 {...register("lastName")}
               />
               {errors.lastName && (
@@ -103,7 +111,7 @@ function ProfileCard({ id, firstname, lastname, email, phone }: UserType) {
               id="email"
               placeholder="Type here"
               className="input input-bordered input-secondary w-full max-w-xs"
-              value={email}
+              
               {...register("email")}
             />
             {errors.email && (
@@ -124,7 +132,7 @@ function ProfileCard({ id, firstname, lastname, email, phone }: UserType) {
               id="phone"
               placeholder="92xxxxxxx"
               className="input input-bordered input-secondary w-full max-w-xs"
-              value={phone}
+              
               {...register("phone")}
             />
             {errors.phone && (

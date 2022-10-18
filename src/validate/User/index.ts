@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export interface CreateUserInterface {
+    id?: string;
     firstname: string;
     lastname: string;
     email: string;
@@ -11,6 +12,7 @@ export interface CreateUserInterface {
 const rePhoneNumber = /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/;
 export const UserValidationSchema = z
   .object({
+    id: z.string().optional(),
     firstName: z.string().min(1, { message: "Firstname is required" }),
     lastName: z.string().min(1, { message: "Lastname is required" }),
     email: z.string().min(1, { message: "Email is required" }).email({

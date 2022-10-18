@@ -2,10 +2,11 @@ import { createRouter } from "./context";
 import { z } from "zod";
 import { hash } from "argon2";
 import { TRPCError } from "@trpc/server";
-import { resolve } from "path";
+
 
 
 interface User {
+    id? : string;
     firstname: string;
     lastname: string;
     email: string;
@@ -50,6 +51,53 @@ export const userRouter = createRouter()
             message: "Requested user not found in database",
           });
     },
+  })
+  .mutation("update",{
+    input:z.object({ 
+      id:z.string(),
+      firstname: z.string(),
+      lastname: z.string(),
+      email: z.string(),
+      phone:z.string(),
+      password:z.string(),
+      })
+  .required(),
+    async resolve({ ctx, input }) {
+       const exists = await ctx.prisma.user.findFirst({
+            where: { id:input.id },
+          });
+      
+          if (!exists) {
+            throw new TRPCError({
+              code: "NOT_FOUND",
+              message: "User Not Found",
+            });
+          }
+          const {id, firstname,lastname, email,phone, password } = input;
+          const hashedPassword = await hash(password);
+          const user: User = {
+            id: id,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            phone: phone,
+            password: hashedPassword
+    
+          };
+
+          const result = await ctx.prisma.user.update({
+            where: {id: input.id},
+            data:user,
+          }
+            
+            )
+      return {
+        status: 201,
+        message: "Account created successfully",
+        result: result,
+      };
+
+    }
   })
   .mutation("store", {
     input:z.object({ 
