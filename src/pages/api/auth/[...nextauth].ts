@@ -14,7 +14,16 @@ export const authOptions:NextAuthOptions = {
   // Include user.id on session
   callbacks: {
     
-      async session({ session, token, user }:any) { return session },
+      async session({ session, token, user }:any) { 
+        if(user){
+          session.id = user.id;
+        
+        }
+        if(token){
+          session.token = token;
+        }
+        return session 
+      },
     
 
     

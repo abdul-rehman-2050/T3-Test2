@@ -6,23 +6,27 @@ import { trpc } from "../utils/trpc";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { UserType } from "../types/userType";
+import { tokenType } from "../types/tokenType";
 import { userAgent } from "next/server";
 import Router from "next/router";
 
 function Test() {
   const [err, setErr] = useState("something nothing");
+  const [token, setToken] = useState<tokenType>();
   const [usr, setUsr] = useState<UserType>();
   trpc.useQuery(["auth.getSession"], {
-    onSuccess(data) {
-      console.log(data);
+    onSuccess(data: any) {
+      
+      setToken(data.token);
     },
     onError(err) {
       console.log(err);
+      setErr(err.message as string);
     },
   });
   //----------------------------------------
 
-  trpc.useQuery(["user.getone", { postId: "cl98ghoid0000ycvgkia2idz1" }], {
+  trpc.useQuery(["user.getone", { postId: token ? token.userId : "" }], {
     // trpc.useQuery(["user.getone", { postId: "89" }], {
     //trpc.useQuery(["user.getone", { postId: (session ? session?.user?.id as string: "0" )}], {
     onError(err) {
@@ -31,18 +35,21 @@ function Test() {
     onSuccess: (data) => {
       console.log("Get data!");
       console.log(data);
-      const mUser: UserType = {
-        id: data.id,
-        firstname: data.firstname!,
-        lastname: data.lastname!,
-        email: data.email!,
-        phone: data.phone!,
-      };
-      console.log("asdfa");
-      console.log(mUser);
-      console.log("new");
+      if (data) {
+        
+        const mUser: UserType = {
+          id: data.id,
+          firstname: data.firstname as string,
+          lastname: data.lastname as string,
+          email: data.email as string,
+          phone: data.phone as string,
+        };
+        console.log("asdfa");
+        console.log(mUser);
+        console.log("new");
 
-      setUsr(mUser);
+        setUsr(mUser);
+      }
     },
   });
 
@@ -52,7 +59,7 @@ function Test() {
       <div className="flex h-screen">
         <div className="grid">
           <button
-            className="mr-1 btn btn-secondary"
+            className="btn btn-secondary mr-1"
             onClick={() => {
               Router.push("/dashboard");
             }}
