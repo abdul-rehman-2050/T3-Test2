@@ -8,6 +8,9 @@ import {
   CreateUserInterface,
 } from "../validate/User";
 
+
+
+
 function ProfileCard({ id, firstname, lastname, email, phone }: UserType) {
   const {
     register,

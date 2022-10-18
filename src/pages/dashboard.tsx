@@ -2,23 +2,19 @@ import React from "react";
 
 import { signOut, useSession } from "next-auth/react";
 import Router from "next/router";
-import { Session } from "@prisma/client";
-
-
 
 function Dashboard() {
   const { data: session, status } = useSession();
   if (status === "loading") {
     return <main>Loading...</main>;
   }
-  if(!session){
-    Router.push("/login")
+  if (!session) {
+    Router.push("/login");
   }
 
   return (
     <div>
       <h2 className="tex-center text-blue-800">dashboar</h2>
-      
 
       <div className="text-center">
         <button

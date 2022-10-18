@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { loginSchema, ILogin } from "../server/common/validation/auth";
 import Router from "next/router";
+import Link from "next/link";
 
 export default function Login() {
   const [serverError, setServerError] = useState<string|null>();
@@ -152,12 +153,12 @@ export default function Login() {
           <p className="mt-8 text-center text-xs font-light text-gray-700">
             {" "}
             Don{"'"}t have an account?{" "}
-            <a
+            <Link
               href="/signup"
               className="font-medium text-purple-600 hover:underline"
             >
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
       </div>

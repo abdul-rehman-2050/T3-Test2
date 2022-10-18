@@ -9,11 +9,19 @@ import { UserType } from "../types/userType";
 import { userAgent } from "next/server";
 import Router from "next/router";
 
+
 function Test() {
   const [err, setErr] = useState("something nothing");
   const [usr, setUsr] = useState<UserType>()
-  
-  
+  trpc.useQuery(["auth.getSession"] ,{
+    onSuccess(data) {
+        console.log(data)
+    },
+    onError(err){
+      console.log(err)
+    }
+  })
+  //----------------------------------------
   
 
    trpc.useQuery(["user.getone", { postId: "cl98ghoid0000ycvgkia2idz1" }], {
