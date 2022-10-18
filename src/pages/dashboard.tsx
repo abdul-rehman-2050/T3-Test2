@@ -23,6 +23,12 @@ function Dashboard() {
         >
           Logout
         </button>
+        <button
+          className="mx-1 btn btn-secondary"
+          onClick={() => {Router.push("/test")}}
+        >
+          Test
+        </button>
       </div>
     </div>
   );
