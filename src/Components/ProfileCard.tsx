@@ -1,49 +1,82 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { UserType } from "../types/userType";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   UserValidationSchema,
   UserValidationSchemaType,
   CreateUserInterface,
 } from "../validate/User";
 
-
+import { trpc } from "../utils/trpc";
+import { useEffect } from "react";
 
 
 function ProfileCard({ id, firstname, lastname, email, phone }: UserType) {
+  const mutation = trpc.useMutation(['user.update'],{
+    onSuccess(data) {
+      alert("Record Updated"+JSON.stringify(data))                
+    },
+  });
+
+ 
+  
   const {
     register,
     handleSubmit,
+    
     formState: { errors },
-    setValue,
+    reset,
+    
+    
   } = useForm<UserValidationSchemaType>({
     resolver: zodResolver(UserValidationSchema),
+    defaultValues: useMemo(() =>{
+      return{
+        id: id as string,
+        firstName:firstname as string,
+        lastName:lastname as string,
+        phone:phone as string,
+        email:email as string,
+      }
+    }, [email, firstname, id, lastname, phone]),
   });
+  /*
+  useEffect(() => {
+    
+    reset({id:id,firstName:firstname,lastName:lastname,phone:phone,email:email});
+  }, [email, firstname, id, lastname, phone, reset]);
+  */
 
-  setValue("id",id as string)
-  setValue("email",email as string)
-  setValue("phone",phone as string)
-  setValue("firstName",firstname as string)
-  setValue("lastName",lastname as string)
-  const onSubmit: SubmitHandler<UserValidationSchemaType> = async (data) => {
+
+  
+  
+  const onSubmit: SubmitHandler<{ id?: string; firstName: string; lastName: string; email: string; password: string; phone: string; }> = async (data) =>{
+  
+    console.log("i am trying to submit");
     console.log(data);
-    const user: CreateUserInterface = {
+
+    mutation.mutate({
       id: data.id as string,
       firstname: data.firstName,
       lastname: data.lastName,
       email: data.email,
       phone: data.phone,
-      password: data.password,
-    };
+      
+    });
+  }
 
-    console.log(user);
-  };
+  if(!mutation){
+    return <>Loading...</>
+  }
 
   return (
     <div className="bg-primary-100 card card-compact mx-10 my-10 w-96 px-10  py-10 shadow-xl">
-      <form className="" onSubmit={handleSubmit(onSubmit)}>
+    
+      <form className="" >
         <input name="id" type="hidden" value={id}></input>
+        
 
         <figure>
           <div className="avatar placeholder online">
@@ -68,6 +101,8 @@ function ProfileCard({ id, firstname, lastname, email, phone }: UserType) {
                 id="firstName"
                 type="text"
                 placeholder="First Name"
+                value={firstname}
+                
                 
                 {...register("firstName")}
               />
@@ -187,7 +222,7 @@ function ProfileCard({ id, firstname, lastname, email, phone }: UserType) {
           </div>
 
           <div className="card-actions justify-end">
-            <button type="submit" className="btn btn-primary btn-block">
+            <button onClick={handleSubmit(onSubmit)} className="btn btn-primary btn-block">
               Save
             </button>
           </div>

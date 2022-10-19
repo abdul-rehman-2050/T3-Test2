@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import Link from "next/link";
 import { trpc } from "../utils/trpc";
 import Router from "next/router";
 import { UserValidationSchema,UserValidationSchemaType,CreateUserInterface } from "../validate/User";
@@ -208,12 +208,12 @@ const RegistrationForm = () => {
       <hr className="mb-2 border-t" />
      
       <div className="text-center">
-        <a
+        <Link
           className="inline-block align-baseline text-sm text-purple-500 hover:text-purple-800"
           href="/login"
         >
           Already have an account? Login!
-        </a>
+        </Link>
       </div>
     </form>
   );

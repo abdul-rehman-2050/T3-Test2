@@ -59,7 +59,7 @@ export const userRouter = createRouter()
       lastname: z.string(),
       email: z.string(),
       phone:z.string(),
-      password:z.string(),
+      
       })
   .required(),
     async resolve({ ctx, input }) {
@@ -73,15 +73,15 @@ export const userRouter = createRouter()
               message: "User Not Found",
             });
           }
-          const {id, firstname,lastname, email,phone, password } = input;
-          const hashedPassword = await hash(password);
+          const {id, firstname,lastname, email,phone } = input;
+          //const hashedPassword = await hash(password);
           const user: User = {
             id: id,
             firstname: firstname,
             lastname: lastname,
             email: email,
             phone: phone,
-            password: hashedPassword
+            password: exists.password,
     
           };
 
