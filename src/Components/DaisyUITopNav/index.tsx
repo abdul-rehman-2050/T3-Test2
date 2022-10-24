@@ -1,6 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { signOut } from "next-auth/react";
+import Router from "next/router";
 
 function TopNavDUI() {
   return (
@@ -76,7 +77,9 @@ function TopNavDUI() {
             className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <li>
-              <a className="justify-between">
+              <a className="justify-between"
+              onClick={()=>Router.push("/test2")}
+              >
                 Profile
                 <span className="badge">New</span>
               </a>
