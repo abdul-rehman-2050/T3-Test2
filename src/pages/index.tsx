@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react"
+import Router from "next/router";
 
 import { loginSchema, ILogin } from "../server/common/validation/auth";
 import Link from "next/link";
@@ -46,7 +47,9 @@ const Home: NextPage = () => {
 
     return (
       <div className="flex h-screen w-full items-center justify-center">
-      <h1 className="justify-center btn btn-primary btn-lg btn-error"><Link href="/login">Login</Link></h1>
+      <button className="justify-center btn btn-primary btn-lg btn-error"
+      onClick={()=>Router.push("/login")}
+      >Login</button>
       </div>
     );
 
