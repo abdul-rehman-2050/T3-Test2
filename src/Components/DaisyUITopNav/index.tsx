@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import { signOut } from "next-auth/react";
 
 function TopNavDUI() {
   return (
@@ -84,7 +85,7 @@ function TopNavDUI() {
               <a>Settings</a>
             </li>
             <li>
-              <a>Logout</a>
+              <a onClick={() => signOut({ callbackUrl: "/" })} >Logout</a>
             </li>
           </ul>
         </div>

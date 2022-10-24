@@ -4,6 +4,7 @@ import { trpc } from "../utils/trpc";
 import { useState, useEffect } from "react";
 import { UserType } from "../types/userType";
 import { tokenType } from "../types/tokenType";
+import TopNavDUI from "../Components/DaisyUITopNav";
 
 function Test2() {
   const [err, setErr] = useState("");
@@ -41,6 +42,7 @@ function Test2() {
 
   return (
     <>
+    <TopNavDUI/>
       {data ? (
         <div className="flex  h-screen w-full items-center justify-center ">
           <UserUpdateForm

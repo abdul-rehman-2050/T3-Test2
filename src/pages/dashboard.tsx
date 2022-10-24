@@ -2,6 +2,7 @@ import React from "react";
 
 import { signOut, useSession } from "next-auth/react";
 import Router from "next/router";
+import TopNavDUI from "../Components/DaisyUITopNav";
 
 function Dashboard() {
   const { data: session, status } = useSession();
@@ -14,9 +15,9 @@ function Dashboard() {
 
   return (
     <div>
-      <h2 className="tex-center text-blue-800">dashboar</h2>
+      <TopNavDUI/>
 
-      <div className="text-center">
+      <div className="flex  h-screen w-full items-center justify-center ">
         <button
           className="btn btn-secondary"
           onClick={() => signOut({ callbackUrl: "/" })}
@@ -27,7 +28,7 @@ function Dashboard() {
           className="mx-1 btn btn-secondary"
           onClick={() => {Router.push("/test2")}}
         >
-          Test
+          Update Profile
         </button>
       </div>
     </div>

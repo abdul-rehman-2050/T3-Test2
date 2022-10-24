@@ -1,14 +1,17 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useCallback } from "react";
 import { signIn } from "next-auth/react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react"
 
 import { loginSchema, ILogin } from "../server/common/validation/auth";
 import Link from "next/link";
 
 const Home: NextPage = () => {
+  const { data: session, status } = useSession()
   const { handleSubmit, control, reset } = useForm<ILogin>({
     defaultValues: {
       email: "",
@@ -17,6 +20,7 @@ const Home: NextPage = () => {
     resolver: zodResolver(loginSchema),
   });
 
+  
   const onSubmit = useCallback(
     async (data: ILogin) => {
       try {
@@ -28,10 +32,21 @@ const Home: NextPage = () => {
     },
     [reset]
   );
+    
+
+  if (status === "authenticated") {
+    return(
+      <div>
+    <a href="/dashboard">Signed in as {session?.user?.email}</a>
+    </div>
+    )
+  }
+
+
 
     return (
-      <div className="container">
-      <h1 className="justify-center btn btn-primary"><Link href="/login">Login</Link></h1>
+      <div className="flex h-screen w-full items-center justify-center">
+      <h1 className="justify-center btn btn-primary btn-lg btn-error"><Link href="/login">Login</Link></h1>
       </div>
     );
 
