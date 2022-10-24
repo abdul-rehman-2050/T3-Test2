@@ -3,12 +3,25 @@ import { UserUpdateForm } from "../Components/UserUpdateForm";
 import { trpc } from "../utils/trpc";
 import { useState, useEffect } from "react";
 import { UserType } from "../types/userType";
+import { tokenType } from "../types/tokenType";
 
 function Test2() {
+  const [err, setErr] = useState("");
   const [data, setData] = useState<UserType>();
+  const [token, setToken] = useState<tokenType>();
+  trpc.useQuery(["auth.getSession"], {
+    onSuccess(data: any) {
+      
+      setToken(data.token);
+    },
+    onError(err) {
+      console.log(err);
+      setErr(err.message as string);
+    },
+  });
 
   
-    trpc.useQuery(["user.getone", { postId: "cl98mthlx0002ycvg5u6r54af" }], {
+    trpc.useQuery(["user.getone", { postId: token ? token.userId : "" }], {
       onSuccess(data) {
         setData({
           id: data.id as string,
