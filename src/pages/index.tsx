@@ -36,6 +36,7 @@ const Home: NextPage = () => {
     
 
   if (status === "authenticated") {
+    Router.push("/dashboard")
     return(
       <div>
     <a href="/dashboard">Signed in as {session?.user?.email}</a>
