@@ -6,6 +6,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { loginSchema, ILogin } from "../server/common/validation/auth";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const { handleSubmit, control, reset } = useForm<ILogin>({
@@ -28,7 +29,14 @@ const Home: NextPage = () => {
     [reset]
   );
 
+    return (
+      <div className="container">
+      <h1 className="justify-center btn btn-primary"><Link href="/login">Login</Link></h1>
+      </div>
+    );
+
   return (
+    
     <div>
       <Head>
         <title>Next App - Login</title>
@@ -81,12 +89,12 @@ const Home: NextPage = () => {
                 </button>
                 <p className="mt-2 mb-0 pt-1 text-sm font-semibold">
                   are you a new user?
-                  <a
+                  <Link
                     href="/signup"
                     className="text-red-600 transition duration-200 ease-in-out hover:text-red-700 focus:text-red-700"
                   >
                     Register
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>

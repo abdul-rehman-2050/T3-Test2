@@ -25,7 +25,7 @@ function Dashboard() {
         </button>
         <button
           className="mx-1 btn btn-secondary"
-          onClick={() => {Router.push("/test")}}
+          onClick={() => {Router.push("/test2")}}
         >
           Test
         </button>
